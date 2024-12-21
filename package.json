@@ -9,7 +9,7 @@
     "format": "turbo run format",
     "stylelint": "turbo run stylelint",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
-    "commit": "git-cz"
+    "commit": "pnpm prettier && git-cz"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,md,less}": [
