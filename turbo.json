@@ -1,0 +1,41 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**", "out/**"]
+    },
+    "dev": {
+      "dependsOn": [],
+      "persistent": true,
+      "cache": false
+    },
+    "lint": {
+      "dependsOn": ["^lint"],
+      "outputs": [],
+      "cache": false
+    },
+    "format": {
+      "dependsOn": ["^format"],
+      "outputs": [],
+      "cache": false
+    },
+    "stylelint": {
+      "dependsOn": ["^stylelint"],
+      "outputs": [],
+      "cache": false
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"],
+      "cache": true
+    }
+  },
+  "globalDependencies": [
+    "tailwind.config.js",
+    "postcss.config.js",
+    "eslint.config.js",
+    "prettier.config.js",
+    "stylelint.config.js"
+  ]
+}
