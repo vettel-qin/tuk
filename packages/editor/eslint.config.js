@@ -23,7 +23,7 @@ export default tseslint.config(
       //   'warn',
       //   { allowConstantExport: true },
       // ],
-      'max-len': ['error', { code: 120 }],
+      'max-len': ['error', { code: 150 }],
       'no-console': 'off',
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': ['off'],
