@@ -3,7 +3,7 @@
  */
 
 import { Layout, Menu, MenuProps } from 'antd'
-import { memo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   ProjectOutlined,
@@ -13,12 +13,14 @@ import {
   AppstoreOutlined,
   LoadingOutlined,
 } from '@ant-design/icons'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 
 const Header = memo(() => {
   const [isNav, setIsNav] = useState(false)
   const [navKey, setNavKey] = useState(['projects'])
   const navigate = useNavigate()
+  const location = useLocation()
+
   // Tab 切换项
   const tabList: MenuProps['items'] = [
     {
@@ -43,9 +45,18 @@ const Header = memo(() => {
     navigate(`/${e.key}`)
   }
 
+  useEffect(() => {
+    if (['/projects', '/pages', '/libs'].includes(location.pathname)) {
+      setIsNav(true)
+      setNavKey([location.pathname.slice(1)])
+    } else {
+      setIsNav(false)
+    }
+  }, [location])
+
   return (
     <Layout.Header
-      className={`flex h-16 items-center justify-between gap-y-8 border-b-[1px] border-[#e8e9eb] bg-white px-5 py-0 text-sm leading-[64px]`}
+      className={`flex h-16 w-screen items-center justify-between gap-y-8 border-b-[1px] border-[#e8e9eb] bg-white px-5 py-0 text-sm leading-[64px]`}
     >
       <div className="flex w-[300px] cursor-pointer items-center gap-y-[10px] text-xl">
         <span>Tuk</span>
