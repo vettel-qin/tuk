@@ -1,4 +1,16 @@
-.page-list {
+.project {
+  padding: 30px 20px;
+  height: calc(100vh - 64px);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+
+  .pagesContent {
+    flex: 1;
+  }
+}
+
+.pageList {
   :global(.ant-card) {
     transition: all 0.3s;
 

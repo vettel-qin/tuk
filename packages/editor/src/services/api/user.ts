@@ -5,7 +5,7 @@ import { LoginFormValues, LoginResponse } from '@/types/user'
 export const login = async <T extends LoginFormValues>(
   params: T,
 ): Promise<LoginResponse> => {
-  return request.post('/login', params)
+  return request.post('/user/login', params)
 }
 
 // 获取用户信息
