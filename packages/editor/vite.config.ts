@@ -17,4 +17,20 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    host: '0.0.0.0',
+    port: 8080,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+    // open: true,
+    proxy: {
+      '/api': {
+        // 如果本地启动后端，请替换为后端地址
+        target: 'http://mars-api.marsview.cc',
+        // changeOrigin: true,
+        // rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
 })

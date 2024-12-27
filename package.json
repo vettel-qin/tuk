@@ -24,7 +24,7 @@
       "commit-msg": "npx --no-install commitlint --edit $1"
     }
   },
-  "packageManager": "pnpm@8.11.0",
+  "packageManager": "pnpm@9.0.6",
   "keywords": [],
   "author": "",
   "license": "ISC",

@@ -4,5 +4,26 @@
     "stylelint-config-recess-order",
     "stylelint-config-prettier"
   ],
-  "rules": {}
+  "rules": {
+    "value-keyword-case": null,
+    "no-descending-specificity": null,
+    "function-url-quotes": "always",
+    "no-empty-source": null,
+    "selector-class-pattern": null,
+    "property-no-unknown": null,
+    "value-no-vendor-prefix": null,
+    "property-no-vendor-prefix": null,
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global", "deep"]
+      }
+    ],
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": ["v-deep"]
+      }
+    ]
+  }
 }
