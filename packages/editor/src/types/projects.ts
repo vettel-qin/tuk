@@ -30,3 +30,14 @@ export interface ProjectListResponse {
   list?: ProjectItem[]
   total?: number
 }
+
+// 创建项目参数
+export interface ProjectCreateParams {
+  name: string
+  remark?: string
+  logo: string
+}
+
+export interface ProjectUpdateParams extends ProjectCreateParams {
+  id: number
+}
