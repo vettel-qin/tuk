@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { produce } from 'immer'
 
 export interface PageState {
   page: {
@@ -49,10 +50,13 @@ export interface PageState {
       }
     }
   }
+  // 主题
+  theme: 'light' | 'dark'
 }
 
 export interface PageAction {
   savePageInfo: () => void
+  setTheme: (theme: 'light' | 'dark') => void
 }
 
 const initialState: PageState = {
@@ -99,6 +103,7 @@ const initialState: PageState = {
       },
     },
   },
+  theme: 'light',
 }
 
 export const usePageStore = create<PageState & PageAction>((set) => ({
@@ -106,6 +111,14 @@ export const usePageStore = create<PageState & PageAction>((set) => ({
   savePageInfo: () => {
     // 实现保存页面信息的逻辑
     console.log('Saving page info...')
+  },
+  // 切换主题
+  setTheme: (theme: 'light' | 'dark') => {
+    set(
+      produce((state) => {
+        state.theme = theme
+      }),
+    )
   },
 }))
 
@@ -115,3 +128,53 @@ export const usePageStore = create<PageState & PageAction>((set) => ({
 // export const usePageStoreReset = () => usePageStore.setState()
 
 export const usePageInfoStore = () => usePageStore((state) => state)
+
+export const usePageActionStore = () => usePageStore((state) => state)
+
+export const usePageStoreReset = () =>
+  usePageStore.setState({
+    page: {
+      id: 0,
+      name: '',
+      remark: '',
+      projectId: 0,
+      isPublic: 2,
+      userId: 0,
+      userName: '',
+      previewImg: '',
+      stgState: 1,
+      preState: 1,
+      prdState: 1,
+      stgPublishId: 0,
+      prePublishId: 0,
+      prdPublishId: 0,
+      pageData: {
+        config: {
+          props: {},
+          style: {},
+          scopeCss: '',
+          scopeStyle: {},
+          events: [],
+          api: {
+            sourceType: 'json',
+            id: '',
+            source: {},
+            sourceField: '',
+          },
+        },
+        events: [],
+        apis: {},
+        elements: [],
+        elementsMap: {},
+        variables: [],
+        variableData: {},
+        formData: {},
+        interceptor: {
+          headers: [{ key: '', value: '' }],
+          timeout: 8,
+          timeoutErrorMessage: '请求超时，请稍后再试',
+        },
+      },
+    },
+    theme: 'light',
+  })

@@ -41,3 +41,11 @@ export interface ProjectCreateParams {
 export interface ProjectUpdateParams extends ProjectCreateParams {
   id: number
 }
+
+// 定义接口
+export interface ProjectDetail {
+  id: number
+  name: string
+  remark: string
+  userId: number
+}

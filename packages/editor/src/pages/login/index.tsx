@@ -24,6 +24,7 @@ export default function Login() {
       console.log(res)
       if (res.token) {
         storage.set('token', res.token)
+        setUserInfo(res)
         navigate('/projects')
       }
     } catch (error) {

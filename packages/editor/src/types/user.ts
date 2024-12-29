@@ -1,7 +1,10 @@
 // 定义登录响应的接口
 export interface LoginResponse {
   token?: string
-  // 如果有其他字段，也一并添加
+  userId: number
+  userName: string
+  nickName: string
+  avatar: string
 }
 
 // 定义表单值的接口

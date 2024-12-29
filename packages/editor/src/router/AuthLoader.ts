@@ -2,6 +2,7 @@
  * 加载用户信息，生成token
  */
 import { storage } from '@/utils/storage'
+import { getUserInfo } from '../services/api/user'
 
 export default async function AuthLoader() {
   try {
@@ -11,12 +12,7 @@ export default async function AuthLoader() {
     }
 
     // TODO: 获取用户信息
-    // const res = await getUserInfo()
-    // 模拟数据
-    const userInfo = {
-      userId: 1,
-      userName: 'tuk',
-    }
+    const userInfo = await getUserInfo()
 
     return userInfo
   } catch (error) {
