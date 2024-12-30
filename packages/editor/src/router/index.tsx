@@ -21,7 +21,7 @@ function ErrorBoundary() {
     <div className="mx-auto my-[100px] w-4/5">
       <h1>{error.name}：渲染失败，请检查:</h1>
       <h3 className="leading-8">
-        当前页面数据已为您备份，可通过sessionStorage查找，日志Id：{logId}
+        当前页面数据已为您备份, 可通过sessionStorage查找, 日志Id: {logId}
       </h3>
       <p style={{ lineHeight: '30px', color: 'red', marginBottom: 20 }}>
         {error.stack}
@@ -46,7 +46,7 @@ export const router = [
     path: '/',
     loader: AuthLoader,
     element: <Root />,
-    ErrorBoundary: <ErrorBoundary />,
+    errorBoundary: <ErrorBoundary />,
     children: [
       {
         path: '/projects',
@@ -63,6 +63,10 @@ export const router = [
             ),
           },
         ],
+      },
+      {
+        path: '/pages',
+        element: LazyLoad(React.lazy(() => import('@/pages/pages/index'))),
       },
     ],
   },

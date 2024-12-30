@@ -4,10 +4,16 @@ import {
   FolderOpenOutlined,
 } from '@ant-design/icons'
 import { Typography } from 'antd'
+import { useNavigate } from 'react-router-dom'
 const { Paragraph } = Typography
 
 export default function ProjectCard(props: { list: any[] }) {
   const { list = [] } = props
+  const navigate = useNavigate()
+  // 单击打开项目配置
+  const handleOpenProject = (id: number) => {
+    navigate(`/project/${id}/config`)
+  }
 
   return (
     <div className="mb-5 grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6">
@@ -16,7 +22,10 @@ export default function ProjectCard(props: { list: any[] }) {
           key={project.id}
           className="relative cursor-pointer overflow-hidden rounded-lg transition delay-300 hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
         >
-          <div className="round-t-2 rounded-tl-lg rounded-tr-lg bg-gradient-to-r from-[#b0eb93] to-[#b0eb93] p-4">
+          <div
+            className="round-t-2 rounded-tl-lg rounded-tr-lg bg-gradient-to-r from-[#b0eb93] to-[#b0eb93] p-4"
+            onClick={() => handleOpenProject(project.id)}
+          >
             <h3 className="m-0 flex items-center text-base text-white">
               <GlobalOutlined className="w-5.5 h-5.5 mr-2" />
               {project.name}
