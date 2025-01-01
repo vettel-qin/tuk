@@ -3,7 +3,7 @@
   
   // 获取页面列表
   export function getPageList(params: PageParams): Promise<PageListResponse> {
-    return request.get('/page/list', params);
+    return request.get('/pages/list', params);
   }
 
   // 获取页面模板列表

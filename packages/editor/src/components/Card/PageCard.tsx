@@ -4,13 +4,14 @@ import { Tooltip, Image, Card } from 'antd';
 import { UserOutlined, EyeOutlined, CopyOutlined, DeleteOutlined, SendOutlined, GlobalOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { message, Modal } from '@/utils/AntdGlobal'
+import { PageItem } from '@/types/page';
 // import api from '@/api/page';
-// import EnvTag from './EnvTag';
+import EnvTag from './EnvTag';
 // import { PageItem } from '@/api/types';
 // import styles from './../../index.module.less';
 
 // 页面列表项
-const PageCard = () => {
+const PageCard = ({ list, copy, refresh }: { list: PageItem[], copy: (params: PageItem) => void, refresh: () => void }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [previewUrl, setPreviewUrl] = useState('');
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const PageCard = () => {
       return navigate(`/editor/${params?.id}/edit`);
     }
     if (type === 'copy') {
-      // return copy?.(params);
+      return copy?.(params);
     }
     if (type === 'delete') {
       Modal.confirm({
@@ -49,7 +50,70 @@ const PageCard = () => {
       });
     }
   };
-  return (<div>PageCard</div>)
+  return (<>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: `repeat(auto-fill, minmax(320px, 1fr))`,
+        gap: 20,
+      }}
+    >
+      {list.map((item: PageItem, index: number) => {
+        return (
+          <Card
+            key={item.id || item.userName + index}
+            actions={[
+              <Tooltip title="预览">
+                <EyeOutlined style={{ fontSize: 16 }} onClick={() => handleAction('preview', item)} />
+              </Tooltip>,
+              <Tooltip title="复制">
+                <CopyOutlined style={{ fontSize: 16 }} onClick={() => handleAction('copy', item)} />
+              </Tooltip>,
+              <Tooltip title="删除">
+                <DeleteOutlined style={{ fontSize: 16 }} onClick={() => handleAction('delete', item)} />
+              </Tooltip>,
+              <Tooltip title="访问STG">
+                <GlobalOutlined
+                  style={{ fontSize: 16 }}
+                  onClick={() => {
+                    window.open(`${import.meta.env.VITE_ADMIN_URL}/page/${item.id}?env=stg`, '_blank');
+                  }}
+                />
+              </Tooltip>,
+            ]}
+          >
+            <div onClick={() => handleAction('edit', item)}>  {/* cardBody */}
+           
+              <div>  {/* itemEnv */}
+                <EnvTag item={item} />
+              </div>
+              <div>{item.name}</div> {/* itemTitle */}
+              <div>{item.remark || '暂无描述'}</div> {/* itemRemark */}
+              <div> {/* updateUser */}
+                <span style={{ marginRight: 10 }}>
+                  <UserOutlined style={{ fontSize: 15, marginRight: 5 }} />
+                  <span>{item.userName}</span>
+                </span>
+                <span>更新于 {dayjs(item.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+              </div>
+            </div>
+          </Card>
+        );
+      })}
+    </div>
+    {/* 图片预览 */}
+    <Image
+      style={{ display: 'none' }}
+      preview={{
+        visible: showPreview,
+        src: previewUrl,
+        onVisibleChange: (value) => {
+          setShowPreview(value);
+          setPreviewUrl('');
+        },
+      }}
+    />
+  </>)
 };
 
 export default PageCard;

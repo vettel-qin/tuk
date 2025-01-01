@@ -5,14 +5,14 @@ import type { NotificationInstance } from "antd/es/notification/interface";
 
 let message: MessageInstance;
 let notification: NotificationInstance;
-let modal: Omit<ModalStaticFunctions, "warn">;
+let Modal: Omit<ModalStaticFunctions, "warn">;
 
 export default () => {
   const staticFunction = App.useApp();
   message = staticFunction.message;
   notification = staticFunction.notification;
-  modal = staticFunction.modal;
+  Modal = staticFunction.modal;
   return null;
 };
 
-export { message, notification, modal };
+export { message, notification, Modal };

@@ -11,7 +11,7 @@ import {
 export const getProjectList = (
   params: ProjectListParams,
 ): Promise<ProjectListResponse> => {
-  return request.get('/project/category', params, { showLoading: false })
+  return request.get('/projects/list', params, { showLoading: false })
 }
 
 // 新增项目

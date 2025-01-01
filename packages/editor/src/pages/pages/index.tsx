@@ -5,7 +5,7 @@ import { useAntdTable } from "ahooks"
 import { useSearchParams } from "react-router-dom"
 import { getPageList } from "@/services/api/page"
 import { PlusOutlined } from "@ant-design/icons"
-import PageCard from "@/components/PageCard"
+import PageCard from "@/components/Card/PageCard"
 import { PageItem } from "@/types/page"
 
 
