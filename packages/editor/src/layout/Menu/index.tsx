@@ -6,6 +6,8 @@ import { Tabs, Flex, Row, Col, Tooltip, Space } from "antd"
 import { AppstoreOutlined, ProjectOutlined, PartitionOutlined, CodeOutlined, ApiOutlined, FunctionOutlined, UsergroupAddOutlined } from "@ant-design/icons"
 import { Suspense } from "react";
 import SpinLoading from "@/components/SpinLoading";
+import ComponentPanel from "@/layout/components/componentPanel";
+import styles from './index.module.less'
 
     /**
  * 左侧面板类型
@@ -17,14 +19,14 @@ import SpinLoading from "@/components/SpinLoading";
         label: '组件',
         title: (
           <Space>
-            <span>组件</span>
-            <Tooltip title="无需拖拽，直接点击就能添加到画布中。">
+            <span>组件<em className="font-normal text-gray-500 font-sm">（拖拽或直接点击就能添加到画布中）</em></span>
+            {/* <Tooltip title="无需拖拽，直接点击就能添加到画布中。">
               <QuestionCircleOutlined />
-            </Tooltip>
+            </Tooltip> */}
           </Space>
         ),
         children: () => {
-          return <>组件</>;
+          return <ComponentPanel />;
         },
       },
       // {
@@ -114,7 +116,7 @@ return (<Tabs
   defaultActiveKey={panels[0].key}
   tabPosition="left"
   tabBarStyle={{ width: 50, height: 'calc(100vh - 64px)' }}
-//   className={styles.leftTool}
+  className={styles.menu}
   centered={true}
   items={panels.map((item) => {
     return {
