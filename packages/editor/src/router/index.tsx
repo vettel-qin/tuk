@@ -68,6 +68,18 @@ export const router = [
         path: '/pages',
         element: LazyLoad(React.lazy(() => import('@/pages/pages/index'))),
       },
+      {
+        path: '/editor/:id',
+        element: LazyLoad(React.lazy(() => import('@/layout/EditLayout/index'))),
+        children: [
+          {
+            path: '/editor/:id/edit',
+            element: LazyLoad(
+              React.lazy(() => import('@/pages/editor/index')),
+            ),
+          },
+        ],
+      },
     ],
   },
 ]
