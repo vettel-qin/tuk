@@ -4,7 +4,22 @@ import IconForm from './icons/IconForm'
 import IconDiv from './icons/IconDiv'
 import IconGrid from './icons/IconGrid'
 
-const components = [
+/**
+ * 组件配置列表
+ */
+export interface SysComItem {
+  type: string; // 组件类型
+  title: string; // 组件名称
+  hidden?: boolean; // 是否隐藏
+  data: Array<{
+    icon: React.ReactNode | string;
+    name: string;
+    type: string;
+    hidden?: boolean;
+  }>;
+}
+
+const components: SysComItem[] = [
   {
     type: 'Page',
     title: '页面组件',

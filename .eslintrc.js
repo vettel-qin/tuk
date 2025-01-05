@@ -5,6 +5,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
+    'plugin:prettier/recommended',
     'prettier', // 确保这个是最后一个扩展
   ],
   settings: {
@@ -26,7 +27,7 @@ module.exports = {
     'max-len': [
       'warn',
       {
-        code: 150,
+        code: 200,
         ignoreComments: true,
         ignoreStrings: true,
         ignoreTemplateLiterals: true,

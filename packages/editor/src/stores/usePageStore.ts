@@ -1,7 +1,9 @@
 import { create } from 'zustand'
 import { produce } from 'immer'
+import { cloneDeep, merge } from 'lodash-es'
 
 export interface PageState {
+  isEdit: boolean
   page: {
     id: number
     name: string
@@ -52,14 +54,19 @@ export interface PageState {
   }
   // 主题
   theme: 'light' | 'dark'
+  selectedElement: { type: string; id: string } | undefined
 }
 
 export interface PageAction {
-  savePageInfo: () => void
+  savePageInfo: (payload: any) => void
   setTheme: (theme: 'light' | 'dark') => void
+  addElement: (element: any) => void
+  setSelectedElement: (element: { type: string; id: string } | undefined) => void
 }
 
 const initialState: PageState = {
+  // 是否编辑了页面
+  isEdit: false,
   page: {
     id: 0,
     name: '',
@@ -104,19 +111,81 @@ const initialState: PageState = {
     },
   },
   theme: 'light',
+  selectedElement: undefined, // 选中的元素
 }
 
 export const usePageStore = create<PageState & PageAction>((set) => ({
   ...initialState,
-  savePageInfo: () => {
+  savePageInfo: (payload: any) => {
     // 实现保存页面信息的逻辑
     console.log('Saving page info...')
+    set(
+      produce((state) => {
+        state.isEdit = true // 标记为编辑状态
+        if (payload.type === 'props') {
+          state.page.pageData.config.props = payload.props
+        } else if (payload.type === 'style') {
+          // 如果是style，则直接更新
+          state.page.pageData.config.scopeCss = payload.scopeCss
+          state.page.pageData.config.scopeStyle = payload.scopeStyle
+          state.page.pageData.config.style = payload.style
+        } else if (payload.type === 'events') {
+          state.page.pageData.config.events = payload.events || []
+        } else if (payload.type === 'api') {
+          state.page.pageData.config.api = payload.api
+        } else {
+          state.isEdit = false // 标记为编辑状态
+          state.page = merge({}, state.page, payload)
+        }
+      }),
+    )
   },
   // 切换主题
   setTheme: (theme: 'light' | 'dark') => {
     set(
       produce((state) => {
         state.theme = theme
+      }),
+    )
+  },
+
+  // 添加组件
+  addElement: (element: any) => {
+    set(
+      produce((state) => {
+        state.isEdit = true // 标记为编辑状态
+        state.page.pageData.elements.push({
+          id: element.id,
+          parentId: element.parentId,
+          type: element.type,
+          name: element.name,
+          elements: element.elements?.map((item: any) => ({ id: item.id, parentId: element.id, type: item.type, name: item.name })) || [],
+        })
+        const childElement = cloneDeep({
+          ...element,
+          elements: undefined,
+          remoteUrl: element.remoteUrl,
+          remoteConfigUrl: element.remoteConfigUrl,
+          remoteCssUrl: element.remoteCssUrl,
+        })
+        // if (element.config.props?.formItem) {
+        //   childElement.config.props?.formItem.name = createId(element.type, 6) // 生成组件ID
+        // }
+        // 添加当前组件对象
+        state.page.pageData.elementsMap[element.id] = childElement
+        // 添加子组件对象
+        element.elements?.map((item: any) => {
+          state.page.pageData.elementsMap[item.id] = item
+        })
+      }),
+    )
+  },
+
+  // 设置选中的组件
+  setSelectedElement: (element: { type: string; id: string } | undefined) => {
+    set(
+      produce((state) => {
+        state.selectedElement = element
       }),
     )
   },
