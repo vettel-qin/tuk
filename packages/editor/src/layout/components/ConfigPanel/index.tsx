@@ -7,7 +7,7 @@ import { usePageInfoStore } from '@/stores/usePageStore'
 import { useDebounceEffect, useDebounceFn } from 'ahooks'
 import { Form, Tabs, ConfigProvider, Flex, message } from 'antd'
 import { useForm } from 'antd/es/form/Form'
-import { memo, Suspense, useEffect, useRef, useState } from 'react'
+import { lazy, memo, Suspense, useEffect, useRef, useState } from 'react'
 import { CheckOutlined, CopyOutlined } from '@ant-design/icons'
 import copy from 'copy-to-clipboard'
 import SpinLoading from '@/components/SpinLoading'
@@ -15,6 +15,9 @@ import SetterRender from '@/components/SetterRender'
 import { SchemaType } from '@/packages/types'
 import { getComponent } from '@/packages'
 import defaultsDeep from 'lodash-es/defaultsDeep'
+
+// 样式配置
+const StyleConfig = lazy(() => import('@/components/StyleConfig'))
 
 const ConfigPanel = memo(() => {
   const [form] = useForm()
@@ -107,7 +110,11 @@ const ConfigPanel = memo(() => {
     {
       key: 'style',
       label: '样式',
-      children: <div>样式</div>,
+      children: (
+        <Suspense fallback={<SpinLoading />}>
+          <StyleConfig />
+        </Suspense>
+      ),
     },
     {
       key: 'event',

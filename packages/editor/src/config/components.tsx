@@ -3,20 +3,20 @@ import IconCard from './icons/IconCard'
 import IconForm from './icons/IconForm'
 import IconDiv from './icons/IconDiv'
 import IconGrid from './icons/IconGrid'
-
+import IconButton from './icons/IconButton'
 /**
  * 组件配置列表
  */
 export interface SysComItem {
-  type: string; // 组件类型
-  title: string; // 组件名称
-  hidden?: boolean; // 是否隐藏
+  type: string // 组件类型
+  title: string // 组件名称
+  hidden?: boolean // 是否隐藏
   data: Array<{
-    icon: React.ReactNode | string;
-    name: string;
-    type: string;
-    hidden?: boolean;
-  }>;
+    icon: React.ReactNode | string
+    name: string
+    type: string
+    hidden?: boolean
+  }>
 }
 
 const components: SysComItem[] = [
@@ -54,6 +54,17 @@ const components: SysComItem[] = [
         icon: <IconGrid />,
         name: '网格容器',
         type: 'Grid',
+      },
+    ],
+  },
+  {
+    type: 'Functional',
+    title: '功能组件',
+    data: [
+      {
+        icon: <IconButton />,
+        name: '按钮',
+        type: 'Button',
       },
     ],
   },

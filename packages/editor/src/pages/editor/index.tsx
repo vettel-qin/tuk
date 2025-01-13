@@ -1,17 +1,20 @@
 import { useDrop } from 'react-dnd'
 import React, { useState, useMemo, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useDebounceFn } from 'ahooks'
 import Page from '@/packages/Page/Page'
 import { getComponent } from '@/packages'
 import { usePageActionStore, usePageInfoStore } from '@/stores/usePageStore'
 import PageConfig from '@/packages/Page/Schema'
 import styles from './index.module.less'
+import Toolbar from '@/components/Toolbar'
 
 const Editor = () => {
   // const [id, setId] = useState(createId(props.type))
   const [canvasWidth, setCanvasWidth] = useState('auto')
+  const [hoverTarget, setHoverTarget] = useState<HTMLElement | null>(null) // 悬浮组件
   const { addElement, savePageInfo } = usePageActionStore()
-  const { state } = usePageInfoStore()
+  const { page } = usePageInfoStore()
   const { id } = useParams()
 
   useEffect(() => {
@@ -22,7 +25,7 @@ const Editor = () => {
 
     console.log(pageData, 'pageData')
 
-    savePageInfo({ ...state, pageData })
+    savePageInfo({ ...page, pageData })
   }, [id])
 
   const [{ isOver }, drop] = useDrop({
@@ -57,6 +60,25 @@ const Editor = () => {
     const editorWidth = document.querySelector('#designer')?.getBoundingClientRect()?.width
     return `${editorWidth}px`
   }, [canvasWidth])
+
+  // 悬浮事件
+  const handleOver = (event: React.MouseEvent<HTMLDivElement>) => {
+    const target = event.target as HTMLElement
+    // 如果当前点击的不是自定义组件，需要获取最近的组件对象
+    const targetElement = target.closest('[data-id]') as HTMLElement
+
+    if (targetElement) {
+      setHoverTarget(targetElement)
+    } else if (hoverTarget) {
+      setHoverTarget(null)
+    }
+
+    event.stopPropagation()
+  }
+
+  // 鼠标悬浮防抖监听
+  const { run: handleRunOver } = useDebounceFn(handleOver, { wait: 300 })
+
   return (
     <div ref={drop} className={`${styles.designer} relative overflow-auto`}>
       <div
@@ -72,9 +94,9 @@ const Editor = () => {
             //   ? { height: 'calc(100vh - 64px)', overflow: 'auto', padding: 0 } :
             { width: canvasWidth === 'auto' ? editorWidth : canvasWidth }
           }
-          // onMouseOver={handleRunOver}
+          onMouseOver={handleRunOver}
         >
-          {isOver ? '拖动中' : '拖动'}
+          <Toolbar hoverTarget={hoverTarget} />
           <React.Suspense fallback={<div>Loading...</div>}>{<Page />}</React.Suspense>
         </div>
       </div>

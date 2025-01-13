@@ -16,6 +16,8 @@ const DragMenuItem = (props: any) => {
     const { config, events, methods = [], elements = [] } = (await getComponent(item.type + 'Config'))?.default || {}
     const newId = createId(item.type)
 
+    console.log(elements, 'elements')
+
     addElement({
       type: item.type,
       name: item.name,
@@ -94,22 +96,18 @@ const DragMenuItem = (props: any) => {
   })
   return (
     <div>
-      <div>{isDragging ? '拖动中' : '拖动'}</div>
-      <div ref={drag} onClick={() => handleClick(props)}>
-        {props.name}
+      <div
+        ref={drag}
+        className="user-select-none flex cursor-move flex-col items-center rounded-lg border border-transparent px-1 py-1 transition-all duration-300 hover:scale-105 hover:transform"
+        style={{ cursor: 'pointer' }}
+        onClick={() => handleClick(props)}
+      >
+        <div className="mb-2 flex h-[50px] w-[50px] items-center justify-center rounded-lg border border-[#f0f0f1] bg-white shadow-sm transition-all duration-300">
+          {typeof props.icon === 'string' ? <img src={props.icon} alt={props.name} className="h-10 w-10" /> : props.icon}
+        </div>
+        <div className="-webkit-box-align-center -webkit-box-pack-center mt-2 flex items-center text-xs">{props.name}</div>
       </div>
     </div>
-    // <div
-    //   // ref={drag}
-    //   className="user-select-none flex cursor-move flex-col items-center rounded-lg border border-transparent px-1 py-1 transition-all duration-300 hover:scale-105 hover:transform"
-    //   style={{ cursor: 'pointer' }}
-    //   onClick={() => handleClick(props)}
-    // >
-    //   <div className="mb-2 flex h-[50px] w-[50px] items-center justify-center rounded-lg border border-[#f0f0f1] bg-white shadow-sm transition-all duration-300">
-    //     {typeof props.icon === 'string' ? <img src={props.icon} alt={props.name} className="h-10 w-10" /> : props.icon}
-    //   </div>
-    //   <div className="-webkit-box-align-center -webkit-box-pack-center mt-2 flex items-center text-xs">{props.name}</div>
-    // </div>
   )
 }
 

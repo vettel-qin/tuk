@@ -29,7 +29,6 @@ const ComponentPanel = () => {
                 .map((subItem: any) => {
                   return (
                     <Col span={8} key={subItem.type}>
-                      {JSON.stringify(subItem)}
                       <DragMenuItem {...subItem} />
                     </Col>
                   )
@@ -80,20 +79,20 @@ const ComponentPanel = () => {
         key: 'system',
         label: '系统组件',
         children: (
-          <DragMenuItem type="Flex" name="Flex容器" />
-          // <>
-          //   <Collapse
-          //     expandIconPosition="end"
-          //     onChange={handleCollapse}
-          //     className={`overflow-y-auto ${list.length > 0 ? 'h-[calc(100vh-21px)]' : ''}`}
-          //     ghost
-          //     size="small"
-          //     activeKey={activeKeys}
-          //     items={list}
-          //     expandIcon={({ isActive }) => <UpOutlined rotate={isActive ? 0 : -180} />}
-          //   />
-          //   {list.length === 0 && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无数据" />}
-          // </>
+          // <DragMenuItem type="Flex" name="Flex容器" />
+          <>
+            <Collapse
+              expandIconPosition="end"
+              onChange={handleCollapse}
+              className={`overflow-y-auto ${list.length > 0 ? 'h-[calc(100vh-21px)]' : ''}`}
+              ghost
+              size="small"
+              activeKey={activeKeys}
+              items={list}
+              expandIcon={({ isActive }) => <UpOutlined rotate={isActive ? 0 : -180} />}
+            />
+            {list.length === 0 && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无数据" />}
+          </>
         ),
       },
       {
